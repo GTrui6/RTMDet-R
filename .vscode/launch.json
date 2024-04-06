@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // "args": [ "/home/rui/Project/rtmdet/mmdetection/data/bdd/test2017",
+            // "/home/rui/Project/rtmdet/mmdetection/configs/rtmdet/rtmdet-ins_l_8xb32-300e_bdd_640.py",
+            // "--palette", "voc",
+            // "--weights", "/home/rui/Project/rtmdet/mmdetection/work_dirs/rtmdet-ins_l_8xb32-300e_bdd_640/epoch_1.pth",
+            // "--out-dir", "testout"]
+            "args": ["/home/rui/Project/upload/mmdetection/configs/rtmdet-r/rtmdet-r_s.py"]
+        }
+    ]
+}
