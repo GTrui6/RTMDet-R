@@ -7,14 +7,14 @@ The code is based on [mmdetection](https://github.com/open-mmlab/mmdetection)
 (4/14: Upload the code and pretrained model.)
 # Image results
 <p align="center">
-  <img width="70%" src="resources/20240414-115135.jpg"> 
-  <img width="70%" src="resources/20240414-115201.jpg"> 
+  <img width="80%" src="resources/20240414-115135.jpg"> 
+  <img width="80%" src="resources/20240414-115201.jpg"> 
 </p>
 
 ## Results comparision
 <p align="center">
-  <img width="70%" src="resources/compare.jpg"> 
-  <img width="70%" src="resources/compare2.jpg"> 
+  <img width="80%" src="resources/compare.jpg"> 
+  <img width="80%" src="resources/compare2.jpg"> 
 </p>
 
 # Installation
