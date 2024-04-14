@@ -1,7 +1,7 @@
 <h1 align="center">RTMDet-R: A robust instance segmentation network for complex traffic scenarios</h1>
 This is an official implementations for "RTMDet-R: A robust instance segmentation network for complex traffic scenarios"
 
-The main architecture of RTMDet-R is based on [RTMDet](https://arxiv.org/pdf/2212.07784.pdf)
+The main architecture of RTMDet-R is based on [RTMDet](https://arxiv.org/pdf/2212.07784.pdf).
 The code is based on [mmdetection](https://github.com/open-mmlab/mmdetection)
 # Update
 (4/14: Upload the code and pretrained model.)
