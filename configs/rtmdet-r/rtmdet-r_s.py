@@ -1,5 +1,5 @@
 _base_ = './rtmdet-ins_l_8xb32-300e_bdd.py'
-load_from = '/home/rui/Project/upload/mmdetection/pretrained_models/rtmdet-ins_s_8xb32-300e_coco_20221121_212604-fdc5d7ec.pth'
+load_from = 'path_of_pretrained_models'
 find_unused_parameters=True
 model = dict(
     backbone=dict(
