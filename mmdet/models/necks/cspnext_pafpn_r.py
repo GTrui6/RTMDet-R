@@ -43,14 +43,12 @@ class Prefusion(nn.Module):
                     conv_cfg=conv_cfg,
                     norm_cfg=norm_cfg,
                     act_cfg=act_cfg)
-        self.convfuse = E_CSPLayer(
+        self.convfuse = conv(
                     896,
                     512,
-                    num_blocks=num_csp_blocks,
-                    add_identity=False,
-                    use_depthwise=use_depthwise,
-                    use_cspnext_block=True,
-                    expand_ratio=expand_ratio,
+                    1,
+                    stride=1,
+                    padding=0,
                     conv_cfg=conv_cfg,
                     norm_cfg=norm_cfg,
                     act_cfg=act_cfg)

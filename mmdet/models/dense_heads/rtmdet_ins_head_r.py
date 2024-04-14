@@ -29,7 +29,7 @@ class Instancekerneldistinguishmodule(BaseModule):
         in_channels: int,
         out_channels: int = 256,
         reg_inchannels: int = 4,
-        stacked_regtoker_convs: int = 2,
+        stacked_regtoker_convs: int = 1,
         act_cfg: ConfigType = dict(type='ReLU', inplace=True),
         norm_cfg: ConfigType = dict(type='BN')
     ) -> None:
@@ -45,13 +45,13 @@ class Instancekerneldistinguishmodule(BaseModule):
                     act_cfg=dict(type='Sigmoid'),
                     norm_cfg=norm_cfg))
         self.stacked_regtoker_convs = nn.Sequential(*convs)
-        self.weightconv = DepthwiseSeparableConvModule(in_channels=in_channels,
-                                                       out_channels=in_channels,
-                                                       kernel_size=11,
-                                                       stride=1,
-                                                       padding=11//2,
-                                                       norm_cfg=norm_cfg,
-                                                       act_cfg=act_cfg)
+        self.weightconv = self.conv = nn.Conv2d(
+                            in_channels=in_channels,
+                            out_channels=in_channels,
+                            kernel_size = 3,
+                            padding=1,
+                            stride=1
+                                                )
         self.mainconv = ConvModule(in_channels=in_channels,
                                                        out_channels=in_channels,
                                                        kernel_size=3,
@@ -61,15 +61,17 @@ class Instancekerneldistinguishmodule(BaseModule):
                                                        act_cfg=act_cfg)
         self.fuseconv = ConvModule(in_channels=in_channels,
                                                        out_channels=out_channels,
-                                                       kernel_size=3,
+                                                       kernel_size=1,
                                                        stride=1,
-                                                       padding=3//2,
+                                                       padding=0,
                                                        norm_cfg=norm_cfg,
                                                        act_cfg=act_cfg)
+        self.hardsigmoid = nn.Hardsigmoid(inplace=True)
     def forward(self, original_input, input_from_regression) -> Tensor:
         input_from_regression = self.stacked_regtoker_convs(input_from_regression)
-        weight_feature = input_from_regression*original_input
+        weight_feature = input_from_regression+original_input
         weight_feature = self.weightconv(weight_feature)
+        weight_feature = self.hardsigmoid(weight_feature)
         main_feature = self.mainconv(original_input)
         reweight_feature = main_feature*weight_feature
         reweight_feature = self.fuseconv(reweight_feature)

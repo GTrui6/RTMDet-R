@@ -206,7 +206,7 @@ class E_CSPNeXtBlock(BaseModule):
             norm_cfg=norm_cfg,
             act_cfg=act_cfg)
         self.conv_substream = DepthwiseSeparableConvModule(
-            hidden_channels,
+            in_channels,
             out_channels,
             11,
             stride=1,
@@ -214,26 +214,22 @@ class E_CSPNeXtBlock(BaseModule):
             conv_cfg=conv_cfg,
             norm_cfg=norm_cfg,
             act_cfg=act_cfg)
-        self.seblock = SELayer(channels=out_channels, act_cfg = dict(type='Sigmoid'))
         self.fuseconv = conv(
-            in_channels,
-            hidden_channels,
+            out_channels,
+            out_channels,
             1,
             stride=1,
             padding=0,
             norm_cfg=norm_cfg,
             act_cfg=act_cfg)
-
+        
     def forward(self, x: Tensor) -> Tensor:
         """Forward function."""
-        identity = x
         out = self.conv1(x)
         out_mainstream = self.conv_mainstream(out)
         out_substream  = self.conv_substream(out)
-        out_substream = self.seblock(out_substream)
-        out = out_mainstream*out_substream
-        out = self.fuseconv(out)
-        return out + identity
+        out = self.fuseconv(out_mainstream+out_substream)+out
+        return out 
 
 class E_CSPLayer(BaseModule):
     """Extended Cross Stage Partial Layer.
@@ -314,6 +310,7 @@ class E_CSPLayer(BaseModule):
                 norm_cfg=norm_cfg,
                 act_cfg=act_cfg) for _ in range(num_blocks)
         ])
+        
         self.extended_cspnext_blocks = nn.Sequential(*[
             E_CSPNeXtBlock(
                 mid_channels,
@@ -323,7 +320,7 @@ class E_CSPLayer(BaseModule):
                 use_depthwise,
                 conv_cfg=conv_cfg,
                 norm_cfg=norm_cfg,
-                act_cfg=act_cfg) for _ in range(int(num_blocks))
+                act_cfg=act_cfg) for _ in range(int(1*num_blocks))
         ])
         if channel_attention:
             self.attention = ChannelAttention(2 * mid_channels)
@@ -336,7 +333,6 @@ class E_CSPLayer(BaseModule):
         x_main = self.blocks(x_main)
         extended_x_main = self.extended_cspnext_blocks(x_main)
         x_main = x_main + extended_x_main
-
         x_final = torch.cat((x_main, x_short), dim=1)
 
         if self.channel_attention:

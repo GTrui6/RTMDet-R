@@ -1,5 +1,0 @@
-python tools/train.py \
-   /home/rui/Project/upload/mmdetection/configs/rtmdet/rtmdet-ins_l_8xb32-300e_bdd.py \
-
-python tools/train.py \
-   /home/rui/Project/upload/mmdetection/configs/rtmdet-r/rtmdet-r_s.py \

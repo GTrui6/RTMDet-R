@@ -99,9 +99,9 @@ train_pipeline_stage2 = [
 ]
 
 
-max_epochs = 18
+max_epochs = 32
 stage2_num_epochs = 1
-base_lr = 0.0002
+base_lr = 0.00005
 interval = 1
 train_cfg = dict(
     max_epochs=max_epochs,
